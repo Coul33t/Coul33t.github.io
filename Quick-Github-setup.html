@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Quick Github setup &ndash; Quick tutorials</title>
+
+    <!-- Meta -->
+    <meta name="description" content="Quick tutorials &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Quentin Couland" />
+    <meta property="article:section" content="Github" />
+    <meta property="article:published_time" content="2019-04-09" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Quick Github setup"/>
+    <meta property="og:description" content="A quick tutorial about using Github&#39;s core functions"/>
+    <meta property="og:site_name" content="Quick tutorials" />
+    <meta property="og:url" content="/Quick-Github-setup.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Quick Github setup">
+    <meta name="twitter:description" content="A quick tutorial about using Github&#39;s core functions">
+    <meta name="twitter:url" content="/Quick-Github-setup.html">
+
+    <!-- Feed -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/jqcloud.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/theme/js/jqcloud.min.js"></script>
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+        <a href="" id="header-logo" title="Home">QC</a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/github.html">Github</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/python.html">Python</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Quick Github setup</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2019-04-09T17:00:00+02:00">mar. 09 avril 2019</time> in <a href="/category/github.html" title="All articles in category Github">Github</a></span>
+          </div>
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="/tag/git-github.html" title="All articles with Git Github tag">#Git Github</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <p>This article is all about using Github's core functions without going too much into all of the details. The commands you will see here are the one you're going to use 80-90% of the time.</p>
+<p>Github is a really, really, REALLY, <strong>REALLY</strong> useful tool used for control versioning. It is mostly used for computer code, but it can be used for everything you want. It allows for:
+- tracking changes into your codes (-&gt; commits made)
+- collaborative developement (-&gt; Pull requests tab)
+- Conflict handling (for example, if two persons modified the same file, when uploading, you can merge the different parts together to avoid erasing code)
+- Bug tracking (-&gt; Issues tab)</p>
+<p>And much more. Indeed, not everyone will use every functionnality, and tutorials usually cover everything it can offers to you. But what if you only want a quick startup? For example, for most of my project, I only want to upload my code so I can access it everywhere, and track changes I made.</p>
+<h2>What will you need for this tutorial</h2>
+<ul>
+<li>A Git client (you can grab one <a href="https://git-scm.com/">here</a>)</li>
+<li>Optionnal: a better terminal than Window's default one, like <a href="https://cmder.net/">CMDer</a></li>
+</ul>
+<h2>Let's go!</h2>
+<h3>The beginning</h3>
+<p>Uploading your code to Github (which is called <em>pushing</em>) requires three main steps: <code>add</code>, <code>commit</code>, <code>push</code>. If you want to create a new repository, an initial <code>init</code> step is required too.</p>
+<p>Let say that you have an existing codebase on your computer, and you want to upload it on Github. Your codebase looks like this:</p>
+<div class="highlight"><pre><span></span>Python/
+└── my_project/
+    ├── main.py
+    ├── tools.py
+    └── misc.py
+</pre></div>
+
+
+<h3>Creating the repository on Github</h3>
+<p>First, we have to create a repository on Github. This repository will contains the files you want to upload. You can do so by: going on the Github frontpage, then clicking " New " on the left panel. You will be asked to:
+- Choose a name for the project
+- Write an optionnal small description
+- Decide to make it public or private</p>
+<p>Once you're done, click " Create ". Tada, your repository is now live! You'll be redirected to another page with a lot of commands. Don't panic! Since your repository is empty, Github is giving you ways to fill it.</p>
+<h3>Creating the local repository and pushing (uploading) the local code to the remote repository</h3>
+<p>In our example, we have a pre-existing codebase that we want to upload. He have to initialise a Git repository locally. Using the git prompt:</p>
+<ol>
+<li>Navigate to your code base top folder location using the <code>cd</code> command (e.g. <code>cd C:\Users\YourName\Documents\Programming\Python</code>) OR open a Git console directly in the desired folder (<code>right click -&gt; Git Bash here</code>).</li>
+<li>write <code>git init</code>. This will create a hidden <code>.git</code> folder, containing all of the required files.</li>
+<li>OPTIONAL: if you want to select which files must (and must not) be uploaded, you have to use a <code>.gitignore</code> file. For more information about this, go to the Tips section below.</li>
+<li>write <code>git add *</code>. This will add all the files and folders of the current folder (<code>*</code> is the <em>wildcard</em> operator, which means <em>all</em>) to the next commit.</li>
+<li>write <code>git commit -m "YOUR MESSAGE HERE"</code>. This will create the commit.</li>
+<li>write <code>git remote add origin https://github.com/YourName/YourRepo.git</code>. Here, we're telling our local repository where to upload the code (in our case, <code>https://github.com/YourName/YourRepo.git</code>). Note that <code>origin</code> is an alias for the url, allowing us to only write <code>origin</code> every time we want to push the code (instead of the whole URL).</li>
+<li>finally, write <code>git push -u origin master</code>. This will push the commit to origin on the <code>master</code> branch. For more informations about branches, go to the Tips section below.</li>
+</ol>
+<p>If you refresh your repository webpage, the code should be there. Congratulations!</p>
+<h3>Pushing the code to the created repository</h3>
+<p>The next time you want to push your code to your remote repository, only the steps 1, 4, 5 and 7 will be required:</p>
+<ol>
+<li><code>cd C:\Users\Kontin\Documents\Programming\Python</code> OR <code>right click -&gt; Git Bash here</code></li>
+<li><code>git add *</code></li>
+<li><code>git commit -m "YOUR MESSAGE HERE"</code></li>
+<li><code>git push origin master</code> OR <code>git push</code></li>
+</ol>
+<p>Note that in the 7th step, you can use <code>git push</code>, as the <code>-u origin master</code> tells Git that the default location for pushing your code is at <code>origin master</code>.</p>
+<h3>TL;DR</h3>
+<p>First time:</p>
+<ol>
+<li><code>cd C:\Users\YourName\Documents\Programming\Python</code> OR <code>right click -&gt; Git Bash here</code>.</li>
+<li><code>git init</code></li>
+<li>OPTIONAL: <code>.gitignore</code> file.</li>
+<li><code>git add *</code></li>
+<li><code>git commit -m "YOUR MESSAGE HERE"</code></li>
+<li><code>git remote add origin https://github.com/YourName/YourRepo.git</code></li>
+<li><code>git push -u origin master</code></li>
+</ol>
+<p>After:</p>
+<ol>
+<li><code>cd C:\Users\YourName\Documents\Programming\Python</code> OR <code>right click -&gt; Git Bash here</code></li>
+<li><code>git add *</code></li>
+<li><code>git commit -m "YOUR MESSAGE HERE"</code></li>
+<li><code>git push origin master</code> OR <code>git push</code></li>
+</ol>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+                <a href=""><img style="width: 60px; height: 60px;" src="" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href=""><span id="author-name" class="w3-hover-text-dark-grey">Quentin Couland</span></a>
+                  <p id="author-story">Hello world! I’m Kontin. I like tea, cats and Python.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+          <p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+          <div id="share" class="share">
+            <a href="http://www.facebook.com/sharer.php?u=/Quick-Github-setup.html&amp;t=Quick%20tutorials%3A%20Quick%20Github%20setup" target="_blank" class="w3-btn w3-indigo">
+              <i class="fa fa-facebook"></i> <span>Facebook</span>
+            </a>
+            <a href="http://twitter.com/share?url=/Quick-Github-setup.html&amp;text=Quick%20tutorials%3A%20Quick%20Github%20setup" target="_blank" class="w3-btn w3-blue">
+              <i class="fa fa-twitter"></i> <span>Twitter</span>
+            </a>
+            <a href="https://plus.google.com/share?url=/Quick-Github-setup.html" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="w3-btn w3-red">
+              <i class="fa fa-google-plus"></i> <span>Google</span>
+            </a>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>&copy;  Quentin Couland </span>
+      </div>
+    </footer>
+
+
+
+  </body>
+</html>

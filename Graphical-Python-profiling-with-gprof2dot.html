@@ -1,42 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <title>Graphical Python profiling with gprof2dot</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Quick tutorials </a></h1>
-                <nav><ul>
-                    <li class="active"><a href="/category/python.html">Python</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
-<section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="/Graphical-Python-profiling-with-gprof2dot.html" rel="bookmark"
-           title="Permalink to Graphical Python profiling with gprof2dot">Graphical Python profiling with gprof2dot</a></h1>
-    </header>
+    <title>Graphical Python profiling with gprof2dot &ndash; Quick tutorials</title>
 
-    <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2019-04-09T15:00:00+02:00">
-                Published: mar. 09 avril 2019
-        </abbr>
-		<br />
-        <abbr class="modified" title="2019-04-09T15:00:00+02:00">
-                Updated: mar. 09 avril 2019
-        </abbr>
+    <!-- Meta -->
+    <meta name="description" content="Quick tutorials &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/quentin-couland.html">Quentin Couland</a>
-        </address>
-<p>In <a href="/category/python.html">Python</a>.</p>
-<p>tags: <a href="/tag/python-tutorial-profiling.html">Python Tutorial Profiling</a> </p>
-</footer><!-- /.post-info -->      <p>In this article, I'll talk a bit about Python profiling. If you don't know yet about cProfile, you can check the Python doc <a href="https://docs.python.org/3/library/profile.html#module-cProfile">here</a>. It a very powerful tool, allowing you to check for bottlenecks in your code, time functions, etc. Basically, you run your Python code using the command</p>
+    <!-- Social -->
+    <meta property="article:author" content="Quentin Couland" />
+    <meta property="article:section" content="Python" />
+    <meta property="article:published_time" content="2019-04-09" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Graphical Python profiling with gprof2dot"/>
+    <meta property="og:description" content="A quick overview of a graphical Python profiling tool"/>
+    <meta property="og:site_name" content="Quick tutorials" />
+    <meta property="og:url" content="/Graphical-Python-profiling-with-gprof2dot.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Graphical Python profiling with gprof2dot">
+    <meta name="twitter:description" content="A quick overview of a graphical Python profiling tool">
+    <meta name="twitter:url" content="/Graphical-Python-profiling-with-gprof2dot.html">
+
+    <!-- Feed -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/jqcloud.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/theme/js/jqcloud.min.js"></script>
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+        <a href="" id="header-logo" title="Home">QC</a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/github.html">Github</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/python.html">Python</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Graphical Python profiling with gprof2dot</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2019-04-09T15:00:00+02:00">mar. 09 avril 2019</time> in <a href="/category/python.html" title="All articles in category Python">Python</a></span>
+          </div>
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="/tag/python-tutorial-profiling.html" title="All articles with Python Tutorial Profiling tag">#Python Tutorial Profiling</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <p>In this article, I'll talk a bit about Python profiling. If you don't know yet about cProfile, you can check the Python doc <a href="https://docs.python.org/3/library/profile.html#module-cProfile">here</a>. It a very powerful tool, allowing you to check for bottlenecks in your code, time functions, etc. Basically, you run your Python code using the command</p>
 <p><code>python -m cProfile -o profiled main.py</code></p>
 <p>And then, you'll have an output like this:</p>
 <div class="highlight"><pre><span></span>ncalls  tottime  percall  cumtime  percall filename:lineno(function)
@@ -66,42 +110,59 @@ gprof2dot.exe -f pstats profiled | dot.exe -Tpng -o output.png
 
 
 <p>I was able to obtain a nice graph looking like this:
-<img alt="Example of an output graph." src="/img/output.svg"></p>
+<img alt="Example of an output graph." src="/img/output.png"></p>
 <p>In this case, I'm developping a Roguelike and everytime I moved, there was a delay between the key press and the rendering. Can you find what the problem seems to be? (the answer is at the end of this article) After fixing the problem, the game run at a much more acceptable speed. Here is the second output graph:
-<img alt="Output graph after fixing the problem." src="/img/output_2.svg"></p>
+<img alt="Output graph after fixing the problem." src="/img/output_2.png"></p>
 <p>Indeed, it is possible to further customise the output graph (I'm not covering this here). This is a very powerful tool, allowing to check the ressources used by (and also to check the workflow of) your program. Oh, and here's the answer to the problem: the rendering function was called 2 times for each update, once by the update function, once by the main loop :)</p>
 <p>Cheers!</p>
-    </div><!-- /.entry-content -->
+        </section>
 
-  </article>
-</section>
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>links</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
+        <br><br><br>
 
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+                <a href=""><img style="width: 60px; height: 60px;" src="" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href=""><span id="author-name" class="w3-hover-text-dark-grey">Quentin Couland</span></a>
+                  <p id="author-story">Hello world! I’m Kontin. I like tea, cats and Python.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
+          <br><br><br>
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
+          <p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+          <div id="share" class="share">
+            <a href="http://www.facebook.com/sharer.php?u=/Graphical-Python-profiling-with-gprof2dot.html&amp;t=Quick%20tutorials%3A%20Graphical%20Python%20profiling%20with%20gprof2dot" target="_blank" class="w3-btn w3-indigo">
+              <i class="fa fa-facebook"></i> <span>Facebook</span>
+            </a>
+            <a href="http://twitter.com/share?url=/Graphical-Python-profiling-with-gprof2dot.html&amp;text=Quick%20tutorials%3A%20Graphical%20Python%20profiling%20with%20gprof2dot" target="_blank" class="w3-btn w3-blue">
+              <i class="fa fa-twitter"></i> <span>Twitter</span>
+            </a>
+            <a href="https://plus.google.com/share?url=/Graphical-Python-profiling-with-gprof2dot.html" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="w3-btn w3-red">
+              <i class="fa fa-google-plus"></i> <span>Google</span>
+            </a>
+          </div>
 
-</body>
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>&copy;  Quentin Couland </span>
+      </div>
+    </footer>
+
+
+
+  </body>
 </html>
