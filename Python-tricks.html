@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Python tricks &ndash; Quick tutorials</title>
+
+    <!-- Meta -->
+    <meta name="description" content="Quick tutorials &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Quentin Couland" />
+    <meta property="article:section" content="Python" />
+    <meta property="article:published_time" content="2019-04-11" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Python tricks"/>
+    <meta property="og:description" content="A few tricks in Python"/>
+    <meta property="og:site_name" content="Quick tutorials" />
+    <meta property="og:url" content="/Python-tricks.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Python tricks">
+    <meta name="twitter:description" content="A few tricks in Python">
+    <meta name="twitter:url" content="/Python-tricks.html">
+
+    <!-- Feed -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/jqcloud.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/theme/js/jqcloud.min.js"></script>
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+        <a href="" id="header-logo" title="Home">QC</a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/github.html">Github</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/python.html">Python</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Python tricks</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2019-04-11T14:00:00+02:00">jeu. 11 avril 2019</time> in <a href="/category/python.html" title="All articles in category Python">Python</a></span>
+          </div>
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="/tag/python-tricks.html" title="All articles with Python Tricks tag">#Python Tricks</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <h2>1) Iterate over a list pairwise</h2>
+<hr>
+<p>Let <em>l</em> be a list containing <em>n</em> elements. We want to run through it pairwise : <strong>0/1, 1/2, ..., (n-1)/n</strong></p>
+<p>e.g. <code>l = [0,1,2,3,4,5,6,7,8,9]</code> -&gt; <code>0/1, 1/2, 2/3, ..., 8/9</code></p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">for</span> <span class="s s-Atom">a</span><span class="p">,</span> <span class="s s-Atom">b</span> <span class="s s-Atom">in</span> <span class="nf">zip</span><span class="p">(</span><span class="s s-Atom">l</span><span class="p">[:-</span><span class="mi">1</span><span class="p">],</span> <span class="s s-Atom">l</span><span class="p">[</span><span class="mi">1</span><span class="s s-Atom">:</span><span class="p">])</span><span class="s s-Atom">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s s-Atom">f&#39;a = {a}, b = {b}&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>or</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
+
+<span class="k">def</span> <span class="nf">pairwise</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;a = {a}, b = {b}&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The latter is a bit faster than the former.</p>
+<h3>Time comparison:</h3>
+<p><code>l = [x for x in range(1000000)]</code></p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Naive</th>
+<th>Naive (pre-computed limit)</th>
+<th>zip()</th>
+<th>pairwise()</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time</td>
+<td>0.46799</td>
+<td>0.33899</td>
+<td>0.07999</td>
+<td>0.07700</td>
+</tr>
+</tbody>
+</table>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+                <a href=""><img style="width: 60px; height: 60px;" src="" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href=""><span id="author-name" class="w3-hover-text-dark-grey">Quentin Couland</span></a>
+                  <p id="author-story">Hello world! I’m Kontin. I like tea, cats and Python.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+          <p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+          <div id="share" class="share">
+            <a href="http://www.facebook.com/sharer.php?u=/Python-tricks.html&amp;t=Quick%20tutorials%3A%20Python%20tricks" target="_blank" class="w3-btn w3-indigo">
+              <i class="fa fa-facebook"></i> <span>Facebook</span>
+            </a>
+            <a href="http://twitter.com/share?url=/Python-tricks.html&amp;text=Quick%20tutorials%3A%20Python%20tricks" target="_blank" class="w3-btn w3-blue">
+              <i class="fa fa-twitter"></i> <span>Twitter</span>
+            </a>
+            <a href="https://plus.google.com/share?url=/Python-tricks.html" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="w3-btn w3-red">
+              <i class="fa fa-google-plus"></i> <span>Google</span>
+            </a>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>&copy;  Quentin Couland </span>
+      </div>
+    </footer>
+
+
+
+  </body>
+</html>
