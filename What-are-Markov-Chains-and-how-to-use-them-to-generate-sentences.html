@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>What are Markov Chains, and how to use them to generate sentences? &ndash; Quick tutorials</title>
+
+    <!-- Meta -->
+    <meta name="description" content="Quick tutorials &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Social -->
+    <meta property="article:author" content="Quentin Couland" />
+    <meta property="article:section" content="Algorithm Python" />
+    <meta property="article:published_time" content="2019-04-09" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="What are Markov Chains, and how to use them to generate sentences?"/>
+    <meta property="og:description" content="A quick explanation about Markov Chains, and how to use them to do fun stuff"/>
+    <meta property="og:site_name" content="Quick tutorials" />
+    <meta property="og:url" content="/What-are-Markov-Chains-and-how-to-use-them-to-generate-sentences.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="What are Markov Chains, and how to use them to generate sentences?">
+    <meta name="twitter:description" content="A quick explanation about Markov Chains, and how to use them to do fun stuff">
+    <meta name="twitter:url" content="/What-are-Markov-Chains-and-how-to-use-them-to-generate-sentences.html">
+
+    <!-- Feed -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/jqcloud.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygments-highlight-github.css">
+
+    <!-- Icon -->
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/theme/js/jqcloud.min.js"></script>
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+        <a href="" id="header-logo" title="Home">QC</a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/algorithm-python.html">Algorithm Python</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/github.html">Github</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/python.html">Python</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>What are Markov Chains, and how to use them to generate sentences?</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2019-04-09T15:00:00+02:00">mar. 09 avril 2019</time> in <a href="/category/algorithm-python.html" title="All articles in category Algorithm Python">Algorithm Python</a></span>
+          </div>
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="/tag/algorithm-python-tutorial.html" title="All articles with Algorithm Python Tutorial tag">#Algorithm Python Tutorial</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <h1>How to use stupid sentences to make even more stupid ones?</h1>
+<p>Henlo ma friands!</p>
+<p>Some times ago, I developped a <a href="https://twitter.com/globabot">bot</a> that allows me to generate sentences from gathered tweets. The code of the bot is available <a href="https://github.com/Coul33t/twitter_bot">here</a>, and here's an example of an input, and an output :</p>
+<ul>
+<li>Input : <code>py main.py -a Coul33t -n -p 20 -m 3 -r</code> (You can read the bot's Github page to understand what does the different parameters do)</li>
+<li>Output : <code>Je donne 1h de la musique en ligne dans les neurones de l'homme et la détresse des gens. I now have a l w a y s</code>
+(<code>I give 1 hour of online music in the man's neuron and people's distress. I now have a l w a y s</code> )</li>
+</ul>
+<p>As you can see, it does not make a lot of sense, but the sentence seems to " have something " coherent in it. The output is generated from my tweets, by " mixing " them together, in a kinda-coherent way.</p>
+<p>It uses Markov Chains (I developped <a href="https://github.com/Coul33t/markold">the Markov Chains library</a> used in the bot by myself, so it's probably messy and not optimal at all) to achieve this. Now, there are some way better ways to do it nowadays (mainly with the famous Neural Networks), but Markov Chains have the advantage of being easily understandable, and kinda easy to implement.</p>
+<h2>What is a Markov Chain?</h2>
+<p>I <em>could</em> put the Wikipedia definition here, but I think that knowing that</p>
+<blockquote>
+<p>a Markov chain is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event</p>
+</blockquote>
+<p>wouldn't be very helpful. Well, actually, some parts of it are interesting, mainly this one:</p>
+<blockquote>
+<p>the probability of each event depends only on the state attained in the previous event</p>
+</blockquote>
+<p>From this part of the sentence, we can understand that a Markov chain has <strong>events</strong> and <strong>probabilities</strong> that are conjointly used: you have a probability to go from an event to another.</p>
+<p>Let's take an example of such a system. I will describe my typical evening/night. For the sake of simplicity, I will only use a small subset of what I usually do.
+When I <strong><em>come home</em></strong>, I <strong><em>wash my hands</em></strong>, then I usually sit at my desk, <strong><em>playing vidayagames</em></strong>. But sometimes, I <strong><em>play the guitar</em></strong> or <strong><em>the piano</em></strong> or <strong><em>the bass</em></strong>, depending on my mood. Then, if it isn't too late, I go back <strong><em>playing VIDAYAGUMZ</em></strong>, until I decide it's time to <strong><em>go to sleep</em></strong>. Let put some labels on those activities:</p>
+<ul>
+<li>H : coming home</li>
+<li>W : washing hands</li>
+<li>V : playing videogames</li>
+<li>I : playing an instrument (either the guitar, the piano or the bass)</li>
+<li>S : going to sleep</li>
+</ul>
+<p>Ok, we got our <strong>events</strong>. Now, when I come home, I usually play videogames before playing any instruments. So there a higher <strong>probability</strong> that I'll play vuduogumz than an instrument, roughly 75%/25%. When I'm playing videogames, I usually play for a few hours before doing something else. When I play an instrument, I usually play for one hour (sometimes different instruments in this hour). If we decide that we want to represent the chances to switch from an activity to another every hour, we can build an array of probabilities for each event pair of <strong>events</strong> we have. The first column represent the current event (<strong>X</strong>), the first row represent the next event (<strong>Y</strong>), and the value at the crossing for a specific row and a specific column is the probability to go to <strong>Y</strong> while we're in <strong>X</strong>:</p>
+<p><img alt="The probability matrix." src="/img/example_table.png"></p>
+<p>(I kept the 0 values blank so that it wouldn't be too hard to read)</p>
+<p>The first row represent the probability to do the <strong>Y</strong> activity after <strong><em>coming home (H)</em></strong>. Since I said that I always <strong><em>wash my hands (W)</em></strong> when I <strong><em>come home (H)</em></strong>, the only probability that is higher than 0 is the <strong><em>washing hands (W)</em></strong> one. When I'm <strong><em>playing videogames (V)</em></strong>, I either keep doing it for another hour, switch to <strong><em>playing an instrument (I)</em></strong> or <strong><em>go to sleep (S)</em></strong>, which correspond to the third row.</p>
+<p>We now have our <strong>probabilities</strong>. Indeed, in this table, since we represented the probability of switching activities every hour, it would mean that I wait one hour at home before washing my hands, then I wait one more hour before deciding to do something. This is unrealistic, but the example still stands nonetheless.</p>
+<p>So, we have our <strong>events</strong>, we have our <strong>probabilities</strong>... Do we have a Markov Chain? Well, <strong>yes</strong>! Here is this a visualisation of this example:
+<img alt="The Markov Chain illustrated." src="/img/markov_chain_example.png"></p>
+<h2>How does the concept of Markov Chain translates to sentences generation?</h2>
+<p>That's nice and all, but we still haven't talked about sentences generations. Now that you know what Markov Chains are, the rest is kinda easy to understand. As I said earlier, my bot first gather tweets from a person. I'm using tweets, but it could be any kind of input (for example, all the sentences from a book, a conversation between two people, etc.), as long as it's sentences.</p>
+<p>We will use another example to explain how it works. Let say that we gathered these tweets:</p>
+<ul>
+<li><em>I am stupid</em></li>
+<li><em>I shat myself</em></li>
+<li><em>You are stupid and I don't like you</em></li>
+<li><em>You shat like I told you</em></li>
+</ul>
+<p>These sentences are <strong>stupid</strong>, but it's not important. If we want that our generated sentences kinda look that these ones, we have to find a way to reproduce the way they are written. Problem is, we don't want to implement grammatical rules, basic syntax, etc. into our system: this would be very complicated and long. We want to keep it <strong>simple</strong>. A simple way to emulate the way these sentences are constructed is to, well... Use Markov Chains. Our <strong>events</strong> are the sentences <strong>words</strong>, and our <strong>probabilities</strong> to go from an event (a word) <strong>X</strong> to another event (another word) <strong>Y</strong> are the occurence of such transition in the sentences above. For example, the word " am " is only followed by the word " stupid ", so the probability to go from " am " to " stupid " is 1. The " I " can be followed by " am " (1 time), " shat " (1 time), " don't " (1 time) and " told " (1 time), so the probability to from " I " to each of these words will be 0.25 for each. Here is the corresponding table:</p>
+<p><img alt="The probability matrix corresponding to the 4 sentences." src="/img/sentences_table.png"></p>
+<p>As you can see, we added " BEGIN " and " END " as " words ". These just mark the beginning and the end of the sentences. It helps keeping track of which words can be at the beginning of a sentence, and which words <strong>can</strong> end a sentence. Here, the sentence can start with either " I " or " You ", and can end with " stupid ", " myself " and " you ".</p>
+<p>From here, we have everything we need to code our sentence generator! You can represent the data as the array above, or as objects (each objects is one word, and a list of possible next words with their probability, for example) if you prefer. The algorithm isn't hard to find:</p>
+<ol>
+<li>Gather sentences from any source you want</li>
+<li>Compute the probability matrix (as shown above)</li>
+<li>Choose a word to begin the sentence (takr all words that follow the BEGIN keyword)</li>
+<li>Randomly choose the next word from the list of the current word's probabilities</li>
+<li>Stop when the END keyword is chosen</li>
+</ol>
+<p>That's it. The algorithm is very simple. From the four sentences above, these are some that could be generated:</p>
+<ul>
+<li><em>I am stupid and I don't like you</em></li>
+<li><em>You shat like you are stupid</em></li>
+<li><em>I am stupid and I don't like you are stupid</em></li>
+<li><em>I shat myself</em></li>
+<li><em>I am stupid and I am stupid and I am stupid and I am stupid and I am stupid and I am stupid and I am stupid and I am stupid...</em></li>
+</ul>
+<p>As you can see, the sentences aren't always coherent. Worse, you can be stuck in an infinite loop, like in the last example (it's like when you use the suggested words when typing on a smartphone's keyboard, you can eventually be stuck in an infinite loop repeating the same few words again and again). You should include another stop condition in the fifth step of the algorithm, to avoid these cases (although you should end up getting out of the loop). You can also have output sentences that are strictly indentic to the input ones. This one is pretty simple to eliminate: just get rid off the output sentences that are equals to the input ones.</p>
+<h2>Are we done yet?</h2>
+<p>Yes and No.</p>
+<p>See, this example works, but it's hard to generate something coherent. One of the problems is that we only used 4 sentences to construct our probability matrix. In real cases, you want a lot of input sentences (so that you can generate a lot of different sentences). Another problem is about the algorithm: it only looks for the next word every time, to compute the probability matrix. In some sentences, it is acceptable to have the word <strong>Y</strong> after the word <strong>X</strong>, while it is not in other sentences. In every langages (that I know), rules have to be followed to make coherent sentences. We aren't looking into adding these rules into the algorithm to improve it.
+A simpler way to have better sentences is to compute the probability for <strong>n</strong> word to follow the word <strong>X</strong>. The bigger the <strong>n</strong> value, the more coherent the sentences will be, but there will be less variation in the output sentences (comparing to the original ones). In our case, we used <strong>n = 1</strong>. If we used <strong>n = 2</strong>, our matrix would look like this:</p>
+<p><img alt="The probability matrix corresponding to n = 2." src="/img/n_2_table.png"></p>
+<p>(I did NOT put the whole matrix, too big and messy)</p>
+<p>While this limits the range of possible sentences, it generates much " realistic " ones. But be careful about the value of <strong>n</strong>: the higher it goes, the more input sentences you need.</p>
+<p>I hope this small explaination about Markov Chains and how to generate sentences with them was clear and useful to you. Cheers!</p>
+        </section>
+
+        <br><br><br>
+
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+                <a href=""><img style="width: 60px; height: 60px;" src="" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href=""><span id="author-name" class="w3-hover-text-dark-grey">Quentin Couland</span></a>
+                  <p id="author-story">Hello world! I’m Kontin. I like tea, cats and Python.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br><br><br>
+
+          <p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+          <div id="share" class="share">
+            <a href="http://www.facebook.com/sharer.php?u=/What-are-Markov-Chains-and-how-to-use-them-to-generate-sentences.html&amp;t=Quick%20tutorials%3A%20What%20are%20Markov%20Chains%2C%20and%20how%20to%20use%20them%20to%20generate%20sentences%3F" target="_blank" class="w3-btn w3-indigo">
+              <i class="fa fa-facebook"></i> <span>Facebook</span>
+            </a>
+            <a href="http://twitter.com/share?url=/What-are-Markov-Chains-and-how-to-use-them-to-generate-sentences.html&amp;text=Quick%20tutorials%3A%20What%20are%20Markov%20Chains%2C%20and%20how%20to%20use%20them%20to%20generate%20sentences%3F" target="_blank" class="w3-btn w3-blue">
+              <i class="fa fa-twitter"></i> <span>Twitter</span>
+            </a>
+            <a href="https://plus.google.com/share?url=/What-are-Markov-Chains-and-how-to-use-them-to-generate-sentences.html" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="w3-btn w3-red">
+              <i class="fa fa-google-plus"></i> <span>Google</span>
+            </a>
+          </div>
+
+          <br><br><br>
+
+
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>&copy;  Quentin Couland </span>
+      </div>
+    </footer>
+
+
+
+  </body>
+</html>
